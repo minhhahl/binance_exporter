@@ -69,7 +69,10 @@ class DataProcessor:
 
         # Loop to each item in target_col and calculate the notional
         # by multiple price and quatity
-        notional_values = list(map(lambda x: float(x[0]) * float(x[1]), order_book[target_col]))
+        notional_values = list(map(
+            lambda x: float(x[0]) * float(x[1]),
+            order_book[target_col]
+        ))
 
         # Sorted notional by notional value in decreasing order
         sorted_list = sorted(

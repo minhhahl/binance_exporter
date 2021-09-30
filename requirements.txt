@@ -2,4 +2,3 @@ binance-connector
 prometheus-client
 coverage
 uwsgi
-flask
