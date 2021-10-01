@@ -1,6 +1,7 @@
 import time
 import traceback
 from functools import wraps
+import logging
 
 def retry(ExceptionToCheck, tries=3, timeout=0, delay=1, backoff=1,
           show_log=False):
@@ -14,7 +15,7 @@ def retry(ExceptionToCheck, tries=3, timeout=0, delay=1, backoff=1,
                 try:
                     return f(*args, **kwargs)
                 except ExceptionToCheck as e:
-                    print("%s, Retrying in %s seconds..." % (str(e), mdelay))
+                    logging.warning('{}, Retrying in {} seconds...'.format(str(e), mdelay))
                     if show_log:
                         traceback.print_exc()
 

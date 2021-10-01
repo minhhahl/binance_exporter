@@ -81,11 +81,11 @@ class DataProcessor:
             The total notional value
         """
 
-        logging.debug("Call function")
+        logging.debug('Call function')
         logging.debug(order_book, target_col, n)
 
         if order_book is None or len(order_book) == 0:
-            logging.warning("Dictionary order_book is empty. Return 0")
+            logging.warning('Dictionary order_book is empty. Return 0')
             return 0
 
         if not target_col in order_book:
@@ -112,6 +112,6 @@ class DataProcessor:
         # Get top N items and return sum of their values
         total_notional = sum(sorted_list[:n])
 
-        logging.debug("Return result {}".format(total_notional))
+        logging.debug('Return result {}'.format(total_notional))
 
         return total_notional

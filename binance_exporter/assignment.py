@@ -19,9 +19,9 @@ class Assignment:
                 self._client.ping()
                 logging.info('Ping Binance API success')
             except Exception:
-                logging.exception("Ping Binance API failed")
+                logging.exception('Ping Binance API failed')
                 if not cfg.EXPOTER_SKIP_API_ERROR:
-                    raise Exception("Unable to connect binance API")
+                    raise Exception('Unable to connect binance API')
 
         self._dp = DataProcessor()
 
@@ -74,9 +74,9 @@ class Assignment:
         try:
             res = self._client.ticker_24hr()
         except Exception:
-            logging.exception("Call Binance API failed")
+            logging.exception('Call Binance API failed')
             if not cfg.EXPOTER_SKIP_API_ERROR:
-                raise Exception("Unable to connect binance API")
+                raise Exception('Unable to connect binance API')
 
         return res
 
@@ -112,9 +112,9 @@ class Assignment:
         try:
             res = self._client.depth(symbol=symbol, limit=api_limit)
         except Exception:
-            logging.exception("Call Binance API failed")
+            logging.exception('Call Binance API failed')
             if not cfg.EXPOTER_SKIP_API_ERROR:
-                raise Exception("Unable to connect binance API")
+                raise Exception('Unable to connect binance API')
 
         return res
 
@@ -142,9 +142,9 @@ class Assignment:
         try:
             res = self._client.book_ticker(symbol=symbol)
         except Exception:
-            logging.exception("Call Binance API failed")
+            logging.exception('Call Binance API failed')
             if not cfg.EXPOTER_SKIP_API_ERROR:
-                raise Exception("Unable to connect binance API")
+                raise Exception('Unable to connect binance API')
 
         return res
 
@@ -155,7 +155,7 @@ class Assignment:
         print()
 
     def question1(self, output=False):
-        logging.info("Call question 1")
+        logging.info('Call question 1')
 
         ticker_24hr = self._get_ticker_24hr()
         res = self._dp.get_top_symbols(
@@ -170,7 +170,7 @@ class Assignment:
         return res
 
     def question2(self, output=False):
-        logging.info("Call question 2")
+        logging.info('Call question 2')
 
         ticker_24hr = self._get_ticker_24hr()
         res = self._dp.get_top_symbols(
@@ -202,7 +202,7 @@ class Assignment:
         return dict(res)
 
     def question3(self, target_cols=cfg.TARGET_COLS_TARGER_COLS, output=False):
-        logging.info("Call question 3")
+        logging.info('Call question 3')
 
         symbols = self.question1()
         res = [(s, self._get_total_notinal_value(
@@ -221,7 +221,7 @@ class Assignment:
         return float(res['askPrice']) - float(res['bidPrice'])
 
     def question4(self, output=False):
-        logging.info("Call question 4")
+        logging.info('Call question 4')
 
         symbols = self.question2()
         res = [(s, self._get_price_spread(s)) for s in symbols]
@@ -239,13 +239,13 @@ class Assignment:
         upate_inverval=10,
         output=True
     ):
-        logging.info("Call question 5 and 6")
+        logging.info('Call question 5 and 6')
 
-        self._print_output(5, "Check log in 10 seconds ...")
-        self._print_output(6, "Please open http://localhost:8080/metrics on your browser")
+        self._print_output(5, 'Check log in 10 seconds ...')
+        self._print_output(6, 'Please open http://localhost:8080/metrics on your browser')
 
         # Start up the server to expose the metrics.
-        logging.info("Start exporter at port {}".format(port))
+        logging.info('Start exporter at port {}'.format(port))
         start_wsgi_server(port)
 
         g_price_spread = Gauge('price_spread', 'Price spread of the top 5 symbols with quote asset USDT and the highest number of trades over the last 24 hours in descending order', ['symbol'])
@@ -255,7 +255,7 @@ class Assignment:
         while True:
             time.sleep(upate_inverval)
 
-            logging.info("Update price spread and exporter metrics")
+            logging.info('Update price spread and exporter metrics')
             res = self.question4()
 
             delta = {}
