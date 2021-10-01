@@ -90,7 +90,7 @@ class DataProcessor:
 
         if not target_col in order_book:
             logging.warning(
-                "Dictionary order_book doesn't contain {} data".format(
+                'Dictionary order_book doesn\'t contain {} data'.format(
                     target_col
                 ))
             return 0
