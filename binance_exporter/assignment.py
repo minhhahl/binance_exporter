@@ -261,14 +261,14 @@ class Assignment:
             delta = {}
             for k, _ in res.items():
                 # Have to check if the symbol is present in prev_res to avoid exception when the list of top 5 sysmbols change
-                delta[k] = abs(res[k] - prev_res[k]) if k in prev_res else 0
+                delta[k] = abs(res[k] - prev_res[k]) if prev_res is not None and k in prev_res else 0
 
                 # Update metrics
                 g_price_spread.labels(symbol=k).set(res[k])
                 g_price_spread_delta.labels(symbol=k).set(delta[k])
 
             if output:
-                print('Last price spread\n{}'.format(res))
-                print('The absolute delta from the previous value\n{}'.format(delta))
+                print('Last price spread\n{}'.format(json.dumps(res, indent=4)))
+                print('The absolute delta from the previous value\n{}'.format(json.dumps(delta, indent=4)))
 
             prev_res = res
