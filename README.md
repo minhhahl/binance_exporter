@@ -114,15 +114,25 @@
   OUTPUT
 
   ```bash
-  Name                                 Stmts   Miss  Cover   Missing
-  ------------------------------------------------------------------
-  binance_exporter/data_processor.py      11      0   100%
-  tests/test_data_processor.py            16      0   100%
-  ------------------------------------------------------------------
-  TOTAL                                   27      0   100%
+  coverage run -m unittest discover -s tests/ -p 'test_*.py'; coverage report -m
+  ......
+  ----------------------------------------------------------------------
+  Ran 6 tests in 0.112s
+
+  OK
+  Name                                  Stmts   Miss  Cover   Missing
+  -------------------------------------------------------------------
+  binance_exporter/assignment.py          114     47    59%   18-24, 76-79, 114-117, 144-147, 152-155, 168, 183, 214, 231, 242-274
+  binance_exporter/configs.py               9      0   100%
+  binance_exporter/custom_decrator.py      37     12    68%   18-32
+  binance_exporter/data_processor.py       29      0   100%
+  tests/test_assignment.py                 27      0   100%
+  tests/test_data_processor.py             18      0   100%
+  -------------------------------------------------------------------
+  TOTAL                                   234     59    75%
   ```
 
-### How to run
+### Run application
 
 - Goto project dir
 - Start the app
@@ -134,7 +144,6 @@
   OUTPUT
 
   ```txt
-  {'serverTime': 1633014577171}
   1. Print the top 5 symbols with quote asset BTC and the highest volume over the last 24 hours in descending order.
   ['BTCDOWNUSDT', 'IOSTBTC', 'SCBTC', 'STPTBTC', 'ZILBTC']
 
@@ -197,4 +206,3 @@
 - Improve `Assignment.py` to increase code coverage
 - Improve code format to clear all pylint warning
 - Add validator for function parameters and server's responses
-- Add timeout configuration for Binance's API call

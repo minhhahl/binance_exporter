@@ -2,8 +2,33 @@ import argparse
 import sys
 import logging
 
-from assignment import Assignment
-import configs as cfg
+from binance_exporter.assignment import Assignment
+import binance_exporter.configs as cfg
+
+class Exporter:
+    """Binance exporter application
+    """
+
+    def __init__(self, args):
+        self._args = args
+
+    def run(self):
+        logging.basicConfig(
+            level=self._args.loglevel,
+            format='[%(asctime)s] %(levelname)s [%(filename)s:%(lineno)d-%(funcName)s] %(message)s',
+            datefmt='%H:%M:%S',
+            stream=sys.stdout
+        )
+
+        logging.info('Start app with args {}'.format(self._args))
+
+        assignment = Assignment()
+
+        assignment.question1(output=True)
+        assignment.question2(output=True)
+        assignment.question3(output=True)
+        answer4 = assignment.question4(output=True)
+        assignment.question5and6(answer4, port=self._args.port, upate_inverval=self._args.update_interval, output=True)
 
 
 if __name__ == '__main__':
@@ -30,18 +55,5 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    logging.basicConfig(
-        level=args.loglevel,
-        format='[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
-        datefmt='%H:%M:%S',
-        stream=sys.stdout)
-
-    logging.info('Start app with args {}'.format(args))
-
-    assignment = Assignment()
-
-    assignment.question1(output=True)
-    assignment.question2(output=True)
-    assignment.question3(output=True)
-    answer4 = assignment.question4(output=True)
-    assignment.question5and6(answer4, port=args.port, upate_inverval=args.update_interval, output=True)
+    exporter = Exporter(args)
+    exporter.run()

@@ -1,6 +1,8 @@
 import time
 import traceback
 from functools import wraps
+import responses
+import re
 
 def retry(ExceptionToCheck, tries=3, timeout=0, delay=1, backoff=1,
           show_log=False):
@@ -33,29 +35,26 @@ def retry(ExceptionToCheck, tries=3, timeout=0, delay=1, backoff=1,
 
     return deco_retry
 
+# Borrow from binance-connector-python repo at https://github.com/binance/binance-connector-python/blob/master/tests/util.py
+def mock_http_response(
+    method, uri, response_data, http_status=200, headers=None, body_data=""
+):
+    if headers is None:
+        headers = {}
 
-def waiting(ExceptionToCheck, timeout=10, delay=1, backoff=1, show_log=False):
-    def deco_waiting(f):
+    def decorator(fn):
+        @responses.activate
+        def wrapper(*args, **kwargs):
+            responses.add(
+                method,
+                re.compile(".*" + uri),
+                json=response_data,
+                body=body_data,
+                status=http_status,
+                headers=headers,
+            )
+            return fn(*args, **kwargs)
 
-        @wraps(f)
-        def f_waiting(*args, **kwargs):
-            end_time = time.time() + timeout if timeout > 0 else 0
-            mdelay = delay
-            while True:
-                try:
-                    return f(*args, **kwargs)
-                except ExceptionToCheck as e:
-                    if show_log:
-                        traceback.print_exc()
+        return wrapper
 
-                    if end_time > 0 and time.time() > end_time:
-                        raise(e)
-                    elif mdelay > 0:
-                        time.sleep(mdelay)
-
-                    mdelay *= backoff
-            return f(*args, **kwargs)
-
-        return f_waiting  # true decorator
-
-    return deco_waiting
+    return decorator

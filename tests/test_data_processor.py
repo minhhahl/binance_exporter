@@ -1,9 +1,11 @@
 import unittest
+import logging
 from binance_exporter.data_processor import DataProcessor
-
 
 class TestDataProcessor(unittest.TestCase):
     def setUp(self):
+        logging.disable(logging.CRITICAL)
+
         self._dp = DataProcessor()
         pass
 
@@ -91,6 +93,16 @@ class TestDataProcessor(unittest.TestCase):
                 },
                 'target_col': 'asks',
                 'output': 4.0 * 12.0 + 3.0 * 2.0
+            },
+            {
+                'input': None,
+                'target_col': 'asks',
+                'output': 0
+            },
+            {
+                'input': {},
+                'target_col': 'asks',
+                'output': 0
             },
             {
                 'input': { "lastUpdateId": 1027024 },

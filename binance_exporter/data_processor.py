@@ -1,4 +1,5 @@
 import logging
+
 class DataProcessor:
     """Process Binance data
     """
@@ -30,7 +31,7 @@ class DataProcessor:
         logging.debug(symbols, quote_asset, ranking_col, n, symbol_col_name)
 
         if symbols is None or len(symbols) == 0:
-            logging.warn("List symbols is empty")
+            logging.warning("List symbols is empty")
             return []
 
         # Filter symbols by quote_asset
@@ -84,11 +85,11 @@ class DataProcessor:
         logging.debug(order_book, target_col, n)
 
         if order_book is None or len(order_book) == 0:
-            logging.warn("Dictionary order_book is empty. Return 0")
+            logging.warning("Dictionary order_book is empty. Return 0")
             return 0
 
         if not target_col in order_book:
-            logging.warn(
+            logging.warning(
                 "Dictionary order_book doesn't contain {} data".format(
                     target_col
                 ))

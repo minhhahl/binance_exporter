@@ -9,11 +9,14 @@ test:
 coverage:
 	 coverage run -m unittest discover -s tests/ -p 'test_*.py'; coverage report -m
 
+coverage-html:
+	 coverage run -m unittest discover -s tests/ -p 'test_*.py'; coverage html
+
 run:
-	python binance_exporter/exporter.py
+	python -m binance_exporter.exporter
 
 debug:
-	python binance_exporter/exporter.py -l DEBUG
+	python -m binance_exporter.exporter -l DEBUG
 
 install-requirements:
 	pip install -r requirements.txt

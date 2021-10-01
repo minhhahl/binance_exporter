@@ -3,23 +3,25 @@ import json
 import logging
 from binance.spot import Spot
 from prometheus_client import start_wsgi_server, Gauge
-from data_processor import DataProcessor
-import configs as cfg
-from custom_decrator import *
+from binance_exporter.data_processor import DataProcessor
+import binance_exporter.configs as cfg
+from binance_exporter.custom_decrator import retry
+
 class Assignment:
     """Solve questions in Binance Home Task
     """
 
-    def __init__(self):
+    def __init__(self, skip_api_ping=False):
         self._client = Spot()
 
-        try:
-            self._client.ping()
-            logging.info('Ping Binance API success')
-        except Exception:
-            logging.exception("Ping Binance API failed")
-            if not cfg.EXPOTER_SKIP_API_ERROR:
-                raise Exception("Unable to connect binance API")
+        if not skip_api_ping:
+            try:
+                self._client.ping()
+                logging.info('Ping Binance API success')
+            except Exception:
+                logging.exception("Ping Binance API failed")
+                if not cfg.EXPOTER_SKIP_API_ERROR:
+                    raise Exception("Unable to connect binance API")
 
         self._dp = DataProcessor()
 
@@ -32,7 +34,11 @@ class Assignment:
             '6. Make the output of Q5 accessible by querying http://localhost:8080/metrics using the Prometheus Metrics format.'
         ]
 
-    @retry(Exception, tries=3, timeout=15)
+    @retry(
+        Exception,
+        tries=cfg.BINANCE_API_RETRY_TIME,
+        timeout=cfg.BINANCE_API_TIMEOUT
+    )
     def _get_ticker_24hr(self):
         """Call binance API to get the data
 
@@ -74,7 +80,11 @@ class Assignment:
 
         return res
 
-    @retry(Exception, tries=3, timeout=15)
+    @retry(
+        Exception,
+        tries=cfg.BINANCE_API_RETRY_TIME,
+        timeout=cfg.BINANCE_API_TIMEOUT
+    )
     def _get_order_book(self, symbol, api_limit=cfg.GET_BOOK_ORDER_API_LIMIT):
         """Call binance API to get the data
 
@@ -108,7 +118,11 @@ class Assignment:
 
         return res
 
-    @retry(Exception, tries=3, timeout=15)
+    @retry(
+        Exception,
+        tries=cfg.BINANCE_API_RETRY_TIME,
+        timeout=cfg.BINANCE_API_TIMEOUT
+    )
     def _get_order_book_ticker(self, symbol):
         """Call binance API to get the data
 
@@ -246,7 +260,7 @@ class Assignment:
 
             delta = {}
             for k, _ in res.items():
-                # Have to check if the symbol is present in prev_res
+                # Have to check if the symbol is present in prev_res to avoid exception when the list of top 5 sysmbols change
                 delta[k] = abs(res[k] - prev_res[k]) if k in prev_res else 0
 
                 # Update metrics

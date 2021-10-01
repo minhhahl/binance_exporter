@@ -1,12 +1,13 @@
 import unittest
+import logging
+import responses
 from binance.spot import Spot as Client
 from binance_exporter.assignment import Assignment
-import responses
-import re
+from binance_exporter.custom_decrator import mock_http_response
 
 MOCK_ITEM_01 = [
     {
-        'input': [{
+        'mock_data': [{
             'symbol': 'BTC{}'.format(i),
             'volume': i,
             'count': 10 - i
@@ -14,7 +15,7 @@ MOCK_ITEM_01 = [
         'output': ['BTC9', 'BTC8', 'BTC7', 'BTC6', 'BTC5']
     },
     {
-        'input': [{
+        'mock_data': [{
             'symbol': '{}USDT'.format(i),
             'volume': i,
             'count': 10 - i
@@ -24,7 +25,7 @@ MOCK_ITEM_01 = [
 ]
 
 MOCK_ITEM_02 = {
-    'input': {
+    'mock_data': {
         "lastUpdateId": 1027024,
         "bids": [["4.0", "431.0"], ["1.0", "22.0"]],
         "asks": [["4.0", "12.0"], ["3.0", "2.0"]]
@@ -39,7 +40,7 @@ MOCK_ITEM_02 = {
 }
 
 MOCK_ITEM_03 = {
-    'input': {
+    'mock_data': {
         "symbol": "",
         "bidPrice": "4.0",
         "bidQty": "431.00000000",
@@ -49,53 +50,30 @@ MOCK_ITEM_03 = {
     'output': {'0USDT': 6.0, '1USDT': 6.0, '2USDT': 6.0, '3USDT': 6.0, '4USDT': 6.0}
 }
 
-# Borrow from binance-connector-python repo at https://github.com/binance/binance-connector-python/blob/master/tests/util.py
-def mock_http_response(
-    method, uri, response_data, http_status=200, headers=None, body_data=""
-):
-    if headers is None:
-        headers = {}
-
-    def decorator(fn):
-        @responses.activate
-        def wrapper(*args, **kwargs):
-            responses.add(
-                method,
-                re.compile(".*" + uri),
-                json=response_data,
-                body=body_data,
-                status=http_status,
-                headers=headers,
-            )
-            return fn(*args, **kwargs)
-
-        return wrapper
-
-    return decorator
-
 class TestAssignment(unittest.TestCase):
     def setUp(self):
-        self._a = Assignment()
+        logging.disable(logging.CRITICAL)
 
-    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[0]['input'], 200)
+        self._a = Assignment(skip_api_ping=True)
+
+    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[0]['mock_data'], 200)
     def test_question1(self):
-        self.assertEqual(self._a.question1(output=True), MOCK_ITEM_01[0]['output'])
+        self.assertEqual(self._a.question1(output=False), MOCK_ITEM_01[0]['output'])
 
-    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[1]['input'], 200)
+    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[1]['mock_data'], 200)
     def test_question2(self):
-        self.assertEqual(self._a.question2(output=True), MOCK_ITEM_01[1]['output'])
+        self.assertEqual(self._a.question2(output=False), MOCK_ITEM_01[1]['output'])
 
-    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[0]['input'], 200)
+    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[0]['mock_data'], 200)
     @mock_http_response(
-        responses.GET, "/api/v3/depth\\?symbol=.*", MOCK_ITEM_02['input'], 200
+        responses.GET, "/api/v3/depth\\?symbol=.*", MOCK_ITEM_02['mock_data'], 200
     )
     def test_question3(self):
-        self.assertEqual(self._a.question3(output=True), MOCK_ITEM_02['output'])
+        self.assertEqual(self._a.question3(output=False), MOCK_ITEM_02['output'])
 
-
-    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[1]['input'], 200)
+    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", MOCK_ITEM_01[1]['mock_data'], 200)
     @mock_http_response(
-        responses.GET, "/api/v3/ticker/bookTicker\\?symbol=.*", MOCK_ITEM_03['input'], 200
+        responses.GET, "/api/v3/ticker/bookTicker\\?symbol=.*", MOCK_ITEM_03['mock_data'], 200
     )
     def test_question4(self):
-        self.assertEqual(self._a.question4(output=True), MOCK_ITEM_03['output'])
+        self.assertEqual(self._a.question4(output=False), MOCK_ITEM_03['output'])
