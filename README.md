@@ -17,6 +17,7 @@
 
 ## Solution
 
+- Use Python to build an application.
 - Use [binance-connector-python](https://github.com/binance/binance-connector-python) to get data from SPOT API.
 - All questions from 1 to 5 are processed in 2 mains files:
   - `binance_exporter/assignment.py`.
