@@ -25,7 +25,7 @@
 - Use `prometheus-client` to provice Prometheus Metrics format in question 6.
 - Use `unittest` to write test in `tests` directory.
 - Use `coverage` to generate code coverage.
-- Use `pylint` for check coding convention and quality checker.
+- Use `pylint` for coding convention and quality checker.
 - When processing data, using `lamda` function and functional programing like `map, filter` to make code is short and easier to read.
 - Build docker image and prepare `docker-compose` so the application could run on differrent environment. Run `prometheus` to verify that it could scape metrics from our exporter.
 - Use `make` to run common tasks while developing.
