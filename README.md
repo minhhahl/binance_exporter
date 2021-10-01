@@ -128,22 +128,14 @@
   OUTPUT
 
   ```bash
-  coverage run -m unittest discover -s tests/ -p 'test_*.py'; coverage report -m
-  ......
-  ----------------------------------------------------------------------
-  Ran 6 tests in 0.112s
-
-  OK
-  Name                                  Stmts   Miss  Cover   Missing
-  -------------------------------------------------------------------
-  binance_exporter/assignment.py          114     47    59%   18-24, 76-79, 114-117, 144-147, 152-155, 168, 183, 214, 231, 242-274
-  binance_exporter/configs.py               9      0   100%
-  binance_exporter/custom_decrator.py      37     12    68%   18-32
-  binance_exporter/data_processor.py       29      0   100%
-  tests/test_assignment.py                 27      0   100%
-  tests/test_data_processor.py             18      0   100%
-  -------------------------------------------------------------------
-  TOTAL                                   234     59    75%
+  Name                                   Stmts   Miss  Cover   Missing
+  --------------------------------------------------------------------
+  binance_exporter/assignment.py           114     43    62%   18-24, 114-117, 144-147, 152-155, 168, 183, 214, 231, 242-274
+  binance_exporter/configs.py                9      0   100%
+  binance_exporter/custom_decorator.py      25      2    92%   19, 30
+  binance_exporter/data_processor.py        29      0   100%
+  --------------------------------------------------------------------
+  TOTAL                                    177     45    75%
   ```
 
 ### Run application

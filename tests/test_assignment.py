@@ -4,6 +4,7 @@ import responses
 from binance.spot import Spot as Client
 from binance_exporter.assignment import Assignment
 from custom_decorator import mock_http_response
+import binance_exporter.configs as cfg
 
 MOCK_ITEM_01 = [
     {
@@ -77,3 +78,14 @@ class TestAssignment(unittest.TestCase):
     )
     def test_question4(self):
         self.assertEqual(self._a.question4(output=False), MOCK_ITEM_03['output'])
+
+    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", "", 502)
+    def test_api_fail_and_not_skip_it(self):
+        cfg.EXPOTER_SKIP_API_ERROR = False
+
+        with self.assertRaises(Exception):
+            self._a.question1(output=False)
+
+    @mock_http_response(responses.GET, "/api/v3/ticker/24hr", "", 502)
+    def test_api_fail(self):
+        self.assertEqual(self._a.question1(output=False), [])
