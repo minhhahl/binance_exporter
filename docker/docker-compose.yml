@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
   binance-exporter:
-    image: binance-exporter:0.1
     container_name: binance-exporter
+    image: binance-exporter:0.1
     ports:
       - 8080:8080
 
