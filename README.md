@@ -2,8 +2,8 @@
 
 ## Assignment
 
-- Use public market data from the SPOT API at https://api.binance.com
-- Binance API spot documentation is at https://github.com/binance-exchange/binance-official-api-docs/
+- Use public market data from the SPOT API at <https://api.binance.com>
+- Binance API spot documentation is at <https://github.com/binance-exchange/binance-official-api-docs/>
 - All answers should be provided as source code written in either Go, Python, Java, Rust, and/or Bash.
 
 ## Questions
@@ -13,7 +13,7 @@
 3. Using the symbols from Q1, what is the total notional value of the top 200 bids and asks currently on each order book?
 4. What is the price spread for each of the symbols from Q2?
 5. Every 10 seconds print the result of Q4 and the absolute delta from the previous value for each symbol.
-6. Make the output of Q5 accessible by querying http://localhost:8080/metrics using the Prometheus Metrics format.
+6. Make the output of Q5 accessible by querying <http://localhost:8080/metrics> using the Prometheus Metrics format.
 
 ## Solution
 
@@ -189,3 +189,12 @@
   The absolute delta from the previous value
   {'BTCUSDT': 0.010000000002037268, 'ETHUSDT': 4.547473508864641e-13, 'OMGUSDT': 0.005000000000000782, 'AVAXUSDT': 0.010000000000005116, 'DYDXUSDT': 0.0}
   ```
+
+### TODO
+
+- Add more tests to cover abnormal cases
+- Add separated `requirements.txt` for dev, testing
+- Improve `Assignment.py` to increase code coverage
+- Improve code format to clear all pylint warning
+- Add validator for function parameters and server's responses
+- Add timeout configuration for Binance's API call
