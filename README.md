@@ -31,8 +31,9 @@
 
 ### Requirements
 
-- Python 3.9
+- Python 3 (python 3.9 is used for develop environment)
 - Pip (if you would like to use virtualenv)
+- gcc (to build `uwsgi` lib)
 
 ### Preparing environment
 
@@ -88,9 +89,9 @@
   OUTPUT
 
   ```txt
-  ..
+  ......
   ----------------------------------------------------------------------
-  Ran 2 tests in 0.000s
+  Ran 6 tests in 0.037s
 
   OK
   ```
