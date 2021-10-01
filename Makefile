@@ -29,3 +29,6 @@ lint:
 
 lint-all:
 	pylint binance_exporter/ -f colorized
+
+docker-build: clear-pyc
+	docker build -t binance-exporter:0.1 -f docker/dockerfile .
