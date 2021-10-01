@@ -3,7 +3,7 @@ import logging
 import responses
 from binance.spot import Spot as Client
 from binance_exporter.assignment import Assignment
-from binance_exporter.custom_decrator import mock_http_response
+from custom_decorator import mock_http_response
 
 MOCK_ITEM_01 = [
     {

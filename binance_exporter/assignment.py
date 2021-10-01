@@ -5,7 +5,7 @@ from binance.spot import Spot
 from prometheus_client import start_wsgi_server, Gauge
 from binance_exporter.data_processor import DataProcessor
 import binance_exporter.configs as cfg
-from binance_exporter.custom_decrator import retry
+from binance_exporter.custom_decorator import retry
 
 class Assignment:
     """Solve questions in Binance Home Task
