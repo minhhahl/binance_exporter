@@ -2,3 +2,4 @@ binance-connector
 prometheus-client
 coverage
 uwsgi
+responses

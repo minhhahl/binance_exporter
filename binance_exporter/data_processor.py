@@ -1,4 +1,8 @@
+import logging
 class DataProcessor:
+    """Process Binance data
+    """
+
     def __init__(self):
         pass
 
@@ -22,6 +26,12 @@ class DataProcessor:
         Returns:
             List of symbols' name
         """
+        logging.debug("Call function")
+        logging.debug(symbols, quote_asset, ranking_col, n, symbol_col_name)
+
+        if symbols is None or len(symbols) == 0:
+            logging.warn("List symbols is empty")
+            return []
 
         # Filter symbols by quote_asset
         filted_list = list(filter(
@@ -37,7 +47,10 @@ class DataProcessor:
         )
 
         # Get top N items and return symbols's name
-        return list(map(lambda x: x[symbol_col_name], sorted_list[:n]))
+        symbols_list = list(map(lambda x: x[symbol_col_name], sorted_list[:n]))
+
+        logging.debug("Return result {}".format(symbols_list))
+        return symbols_list
 
     def cal_total_notional_value(self, order_book, target_col, n=200):
         """Calculate total notional value from order book of the top N notional on target_col
@@ -67,6 +80,20 @@ class DataProcessor:
             The total notional value
         """
 
+        logging.debug("Call function")
+        logging.debug(order_book, target_col, n)
+
+        if order_book is None or len(order_book) == 0:
+            logging.warn("Dictionary order_book is empty. Return 0")
+            return 0
+
+        if not target_col in order_book:
+            logging.warn(
+                "Dictionary order_book doesn't contain {} data".format(
+                    target_col
+                ))
+            return 0
+
         # Loop to each item in target_col and calculate the notional
         # by multiple price and quatity
         notional_values = list(map(
@@ -82,4 +109,8 @@ class DataProcessor:
         )
 
         # Get top N items and return sum of their values
-        return sum(sorted_list[:n])
+        total_notional = sum(sorted_list[:n])
+
+        logging.debug("Return result {}".format(total_notional))
+
+        return total_notional
