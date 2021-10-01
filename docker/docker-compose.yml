@@ -6,3 +6,13 @@ services:
     container_name: binance-exporter
     ports:
       - 8080:8080
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.30.0
+    ports:
+      - 9090:9090
+    volumes:
+      - ./res/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - binance-exporter

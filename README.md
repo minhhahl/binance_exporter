@@ -228,7 +228,7 @@
   {'BTCUSDT': 0.010000000002037268, 'ETHUSDT': 4.547473508864641e-13, 'OMGUSDT': 0.005000000000000782, 'AVAXUSDT': 0.010000000000005116, 'DYDXUSDT': 0.0}
   ```
 
-### Docker docker image
+### Docker
 
 - Goto project dir
 - Build image
@@ -241,8 +241,12 @@
 
   ```bash
   cd docker
-  docker-compose up
+  docker-compose up -d
   ```
+
+- View prometheus UI at [http://localhost:9090](http://localhost:9090) to check metrics
+
+  ![Prometheus](./images/prometheus.png)
 
 ### TODO
 
