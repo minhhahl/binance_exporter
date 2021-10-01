@@ -1,4 +1,4 @@
-all: install-requirements lint test coverage run
+all: install-requirements-dev lint test coverage run
 
 clear-pyc:
 	find . -name "*.pyc" -exec rm -f {} \;
@@ -20,6 +20,9 @@ debug:
 
 install-requirements:
 	pip install -r requirements.txt
+
+install-requirements-dev:
+	pip install -r requirements-dev.txt
 
 lint:
 	pylint binance_exporter/ -f colorized --errors-only

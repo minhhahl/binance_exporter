@@ -19,7 +19,7 @@
 
 ### Requirements
 
-- Python 3
+- Python 3.9
 - Pip (if you would like to use virtualenv)
 
 ### Preparing environment
@@ -55,7 +55,7 @@
 - Run pip command to install
 
   ```bash
-  pip install -r requirements.txt
+  pip install -r requirements-dev.txt
   ```
 
 ### Run test
@@ -202,7 +202,6 @@
 ### TODO
 
 - Add more tests to cover abnormal cases
-- Add separated `requirements.txt` for dev, testing
 - Improve `Assignment.py` to increase code coverage
-- Improve code format to clear all pylint warning
+- Improve code format to clear pylint warning
 - Add validator for function parameters and server's responses
