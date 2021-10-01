@@ -17,17 +17,17 @@
 
 ## Solution
 
-- Use [binance-connector-python](https://github.com/binance/binance-connector-python) to get data from SPOT API
+- Use [binance-connector-python](https://github.com/binance/binance-connector-python) to get data from SPOT API.
 - All questions from 1 to 5 are processed in 2 mains files:
-  - `binance_exporter/assignment.py`
-  - `binance_exporter/data_processor.py`
-- Use `prometheus-client` to provice Prometheus Metrics format in question 6
-- Use `unittest` to write test in `tests` directory
-- Use `coverage` to generate code coverage
-- Use `pylint` for check coding convention and quality checker
-- When processing data, using `lamda` function and functional programing like `map, filter` to make code is short and easier to read
-- Build docker image and prepare `docker-compose` so the application could run on differrent environment and ready to setup CI/CD
-- Use `make` to run common tasks while developing
+  - `binance_exporter/assignment.py`.
+  - `binance_exporter/data_processor.py`.
+- Use `prometheus-client` to provice Prometheus Metrics format in question 6.
+- Use `unittest` to write test in `tests` directory.
+- Use `coverage` to generate code coverage.
+- Use `pylint` for check coding convention and quality checker.
+- When processing data, using `lamda` function and functional programing like `map, filter` to make code is short and easier to read.
+- Build docker image and prepare `docker-compose` so the application could run on differrent environment. Run `prometheus` to verify that it could scape metrics from our exporter.
+- Use `make` to run common tasks while developing.
 
 ### Requirements
 
@@ -250,8 +250,8 @@
 
 ### TODO
 
-- Add more tests to cover abnormal cases
-- Improve `Assignment.py` to increase code coverage
-- Improve code format to clear pylint warning
-- Add validator for function parameters and server's responses
-- User docker multi-stage build to build new image faster when just update code
+- Add more tests to cover abnormal cases.
+- Improve `Assignment.py` to increase code coverage.
+- Improve code format to clear pylint warning.
+- Add validator for function parameters and server's responses.
+- User docker multi-stage build to build new image faster when just update code.
