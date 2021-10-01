@@ -17,6 +17,18 @@
 
 ## Solution
 
+- Use [binance-connector-python](https://github.com/binance/binance-connector-python) to get data from SPOT API
+- All questions from 1 to 5 are processed in 2 mains files:
+  - `binance_exporter/assignment.py`
+  - `binance_exporter/data_processor.py`
+- Use `prometheus-client` to provice Prometheus Metrics format in question 6
+- Use `unittest` to write test in `tests` directory
+- Use `coverage` to generate code coverage
+- Use `pylint` for check coding convention and quality checker
+- When processing data, using `lamda` function and functional programing like `map, filter` to make code is short and easier to read
+- Build docker image and prepare `docker-compose` so the application could run on differrent environment and ready to setup CI/CD
+- Use `make` to run common tasks while developing
+
 ### Requirements
 
 - Python 3.9
@@ -135,6 +147,22 @@
 ### Run application
 
 - Goto project dir
+- View help
+
+  ```bash
+  python -m binance_exporter.exporter --help
+  usage: exporter.py [-h] [--port PORT] [--update-interval UPDATE_INTERVAL]
+                    [--loglevel [{CRITICAL,ERROR,WARNING,INFO,DEBUG}]]
+
+  optional arguments:
+    -h, --help            show this help message and exit
+    --port PORT, -p PORT  Exporter port number
+    --update-interval UPDATE_INTERVAL, -i UPDATE_INTERVAL
+                          Price spread update interval
+    --loglevel [{CRITICAL,ERROR,WARNING,INFO,DEBUG}], -l [{CRITICAL,ERROR,WARNING,INFO,DEBUG}]
+                          Log level
+  ```
+
 - Start the app
 
   ```bash
@@ -199,9 +227,26 @@
   {'BTCUSDT': 0.010000000002037268, 'ETHUSDT': 4.547473508864641e-13, 'OMGUSDT': 0.005000000000000782, 'AVAXUSDT': 0.010000000000005116, 'DYDXUSDT': 0.0}
   ```
 
+### Docker docker image
+
+- Goto project dir
+- Build image
+
+  ```bash
+  make docker-build
+  ```
+
+- Run application with `docker-compose`
+
+  ```bash
+  cd docker
+  docker-compose up
+  ```
+
 ### TODO
 
 - Add more tests to cover abnormal cases
 - Improve `Assignment.py` to increase code coverage
 - Improve code format to clear pylint warning
 - Add validator for function parameters and server's responses
+- User docker multi-stage build to build new image faster when just update code
